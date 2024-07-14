@@ -2,7 +2,12 @@
   "name": "azdo-repository",
   "displayName": "azdo-repository",
   "description": "Switch or clone repositories from Azure DevOps",
-  "version": "0.0.1",
+  "icon": "icon.jpeg",
+  "publisher": "salo33",
+  "repository": {
+    "url": "https://github.com/masicx/azdo-repository"
+  },
+  "version": "0.0.2",
   "engines": {
     "vscode": "^1.91.0"
   },
@@ -14,10 +19,30 @@
   "contributes": {
     "commands": [
       {
-        "command": "azdo-repository.helloWorld",
-        "title": "Hello World"
+        "command": "azdo-repository.switchRepository",
+        "title": "Switch Repository"
       }
-    ]
+    ],
+    "configuration": {
+      "title": "Organization",
+      "properties": {
+        "azdo-repository.organization": {
+          "type": "string",
+          "default": "",
+          "description": "Azure DevOps Organization"
+        },
+        "azdo-repository.token": {
+          "type": "string",
+          "default": "",
+          "description": "Azure DevOps Personal Access Token"
+        },
+        "azdo-repository.repositoryPath": {
+          "type": "string",
+          "default": "",
+          "description": "Defines the path of the repositories"
+        }
+      }
+    }
   },
   "scripts": {
     "vscode:prepublish": "npm run package",
