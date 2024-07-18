@@ -33,23 +33,30 @@ export function activate(context: vscode.ExtensionContext) {
 			placeHolder: 'Select a repository'
 		});
 
+		if (!selectedRepository) {
+			return;
+		}
+
 		// check if exist a folder with same name
-		const folderPath = await getOrUpdateConfiguration('repositoryPath', 'Please enter your folder path', false, true) + '/' + selectedRepository?.label;
+		const folderPath = await getOrUpdateConfiguration('repositoryPath', 'Please enter your folder path', false, false) + '/' + selectedRepository?.label;
 
 		fs.access(folderPath, fs.constants.F_OK, async (err) => {
 			if (err) {
 				console.log('Folder does not exist');
 				// show prompt asking if you want to clone the repository
 				const clone = await vscode.window.showInformationMessage('Repository not found in your folder of repositories. Do you want to Clone repository?', 'Yes', 'No');
-				if (clone === 'Yes') {
-					// execute command to clone the repository
-					cloneRepository(selectedRepository as vscode.QuickPickItem);
+				if (clone === 'No') {
+					return;
 				}
+
+				cloneRepository(selectedRepository as vscode.QuickPickItem);
 			}
+
 			const open = await vscode.window.showInformationMessage('Do you want to open the folder in the same window or in a new one?', 'Open in same window', 'Open in new window', 'Cancel');
 			if (open === 'Cancel') {
 				return;
 			}
+
 			vscode.commands.executeCommand('vscode.openFolder', vscode.Uri.file(folderPath), open === 'Open in new window');
 		});
 	});
@@ -60,8 +67,8 @@ export function activate(context: vscode.ExtensionContext) {
 
 async function cloneRepository(selectedRepository: vscode.QuickPickItem) {
 	// execute cmd command to clone the repository in the repositoryPath
-	const folderPath = vscode.workspace.getConfiguration('azdo-repository').get('repositoryPath') + '/' + selectedRepository.label;
-	const command = `git clone '${selectedRepository.description}' ${folderPath}`;
+	const folderPath = vscode.workspace.getConfiguration('azdo-repository').get('repositoryPath') + '\\' + selectedRepository.label;
+	const command = `git clone ${selectedRepository.description} ${folderPath}`;
 	child_process.exec(command, async (error, stdout, stderr) => {
 		if (error) {
 			vscode.window.showErrorMessage(`Error executing command: ${error.message}`);

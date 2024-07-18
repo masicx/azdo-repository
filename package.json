@@ -1,13 +1,13 @@
 {
   "name": "azdo-repository",
-  "displayName": "azdo-repository",
+  "displayName": "Azure DevOps Repository",
   "description": "Switch or clone repositories from Azure DevOps",
   "icon": "icon.jpeg",
   "publisher": "salo33",
   "repository": {
     "url": "https://github.com/masicx/azdo-repository"
   },
-  "version": "0.0.2",
+  "version": "0.0.4",
   "engines": {
     "vscode": "^1.91.0"
   },
