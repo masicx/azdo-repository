@@ -49,7 +49,7 @@ export function activate(context: vscode.ExtensionContext) {
 					return;
 				}
 
-				cloneRepository(selectedRepository as vscode.QuickPickItem);
+				await cloneRepository(selectedRepository as vscode.QuickPickItem);
 			}
 
 			const open = await vscode.window.showInformationMessage('Do you want to open the folder in the same window or in a new one?', 'Open in same window', 'Open in new window', 'Cancel');
@@ -67,7 +67,7 @@ export function activate(context: vscode.ExtensionContext) {
 
 async function cloneRepository(selectedRepository: vscode.QuickPickItem) {
 	// execute cmd command to clone the repository in the repositoryPath
-	const folderPath = vscode.workspace.getConfiguration('azdo-repository').get('repositoryPath') + '\\' + selectedRepository.label;
+	const folderPath = vscode.workspace.getConfiguration('azdo-repository').get('repositoryPath') + '/' + selectedRepository.label;
 	const command = `git clone ${selectedRepository.description} ${folderPath}`;
 	child_process.exec(command, async (error, stdout, stderr) => {
 		if (error) {
