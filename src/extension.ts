@@ -50,6 +50,7 @@ export function activate(context: vscode.ExtensionContext) {
 				}
 
 				await cloneRepository(selectedRepository as vscode.QuickPickItem);
+				return;
 			}
 
 			const open = await vscode.window.showInformationMessage('Do you want to open the folder in the same window or in a new one?', 'Open in same window', 'Open in new window', 'Cancel');
@@ -59,6 +60,7 @@ export function activate(context: vscode.ExtensionContext) {
 
 			vscode.commands.executeCommand('vscode.openFolder', vscode.Uri.file(folderPath), open === 'Open in new window');
 		});
+
 	});
 
 
