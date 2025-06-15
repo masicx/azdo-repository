@@ -14,7 +14,7 @@ export function activate(context: vscode.ExtensionContext) {
 		// Import the required Azure DevOps module
 		// Connect to Azure DevOps
 		// get configuration organization
-		const organization = vscode.workspace.getConfiguration('azdo-repository').get('organization');
+		const organization = await getOrUpdateConfiguration('organization', 'Please enter your Azure DevOps organization name', true, false);
 		const orgUrl = `https://dev.azure.com/${organization}`;
 
 		const token = await getOrUpdateConfiguration('token', 'Please enter your personal access token', true, false);
